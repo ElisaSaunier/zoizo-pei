@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quêtes du moment · Cases mystères</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&amp;display=swap">
+<style>
+:root{--bg1:#FBF1DC;--bg2:#FDFBF3;--card:#FDFCF6;--ink:#17261C;--mute:#5D665E;--line:#EADFC6;--orange:#B9500F;--tile:#F6EBD3;--lock:#F1E8D3;--green:#40702F;--lime:#A8D75A;--shadow:0 6px 18px rgba(120,90,30,.10);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg1:#0E1A14;--bg2:#14241B;--card:#1A2D22;--ink:#F3EEDD;--mute:#B6BFB2;--line:#2A4533;--orange:#F29A5C;--tile:#243D2E;--lock:#1F3326;--green:#8CC46C;--shadow:0 6px 18px rgba(0,0,0,.35)}}
+:root[data-theme="dark"]{color-scheme:dark;--bg1:#0E1A14;--bg2:#14241B;--card:#1A2D22;--ink:#F3EEDD;--mute:#B6BFB2;--line:#2A4533;--orange:#F29A5C;--tile:#243D2E;--lock:#1F3326;--green:#8CC46C;--shadow:0 6px 18px rgba(0,0,0,.35)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:'Figtree',system-ui,sans-serif;color:var(--ink);background:linear-gradient(135deg,var(--bg1),var(--bg2) 60%);background-color:var(--bg2)}
+main{max-width:1180px;margin:0 auto;padding:40px 24px 72px}
+h1,h2{margin:0;letter-spacing:-.02em}
+.head{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.head svg{flex:none;color:var(--orange)}
+h1{font-size:clamp(28px,4vw,40px);font-weight:800}
+h2{font-size:clamp(24px,3.4vw,34px);font-weight:800}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.q{display:flex;gap:20px;background:var(--card);border:1.5px solid var(--line);border-radius:28px;padding:30px 28px;box-shadow:var(--shadow)}
+.tile{flex:none;width:96px;height:96px;border-radius:24px;background:radial-gradient(circle at 60% 40%,rgba(246,190,90,.45),transparent 62%),var(--tile);display:grid;place-items:center}
+.q h3{margin:2px 0 8px;font-size:21px;font-weight:700;line-height:1.2}
+.q p{margin:0 0 12px;font-size:17px;line-height:1.5;color:var(--mute)}
+.xp{font-weight:600;font-size:16px;color:var(--orange)}
+.sec{margin-top:64px}
+.sec-top{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px;margin-bottom:8px}
+.sub{margin:6px 0 0;color:var(--mute);font-size:17px;max-width:560px;line-height:1.5}
+.prog{min-width:230px}
+.prog b{font-size:15px;font-weight:600}
+.bar{height:10px;border-radius:99px;background:var(--line);margin:8px 0 14px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--lime),var(--green));border-radius:99px;transition:width .6s}
+.demo{font:inherit;font-weight:600;font-size:14px;padding:9px 16px;border-radius:99px;border:1.5px dashed var(--orange);background:transparent;color:var(--orange);cursor:pointer}
+.demo:focus-visible,.box:focus-visible{outline:3px solid var(--green);outline-offset:3px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;margin-top:26px}
+.box{font:inherit;color:inherit;text-align:left;border-radius:28px;min-height:250px;padding:22px;position:relative;display:flex;flex-direction:column;border:1.5px solid var(--line);cursor:pointer}
+.box.locked{background:repeating-linear-gradient(135deg,transparent 0 14px,rgba(184,150,80,.07) 14px 28px),var(--lock);align-items:center;justify-content:center;text-align:center;gap:8px}
+.mo{font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.mark{width:84px;height:84px;border-radius:24px;display:grid;place-items:center;font-weight:800;font-size:46px;color:#fff;background:linear-gradient(145deg,#E98A45,#B9500F);box-shadow:0 8px 16px rgba(185,80,15,.28);position:relative}
+.mark:after{content:"✦";position:absolute;top:-10px;right:-8px;font-size:20px;color:var(--lime)}
+.hint{font-size:15px;line-height:1.4;color:var(--mute);font-style:italic;max-width:200px}
+.when{font-size:14px;font-weight:600;color:var(--ink);background:var(--card);border-radius:99px;padding:6px 14px;border:1px solid var(--line)}
+.box.open{background:var(--card);box-shadow:var(--shadow);cursor:default}
+.box.open h3{margin:14px 0 8px;font-size:20px;font-weight:700;line-height:1.2}
+.box.open p{margin:0 0 12px;font-size:16px;line-height:1.5;color:var(--mute);flex:1}
+.new{position:absolute;top:16px;right:16px;background:var(--lime);color:#17261C;font-weight:800;font-size:12px;letter-spacing:.08em;padding:4px 10px;border-radius:99px}
+.box.pop{animation:pop .7s cubic-bezier(.2,1.3,.4,1)}
+.box.shake{animation:shake .45s}
+@keyframes pop{0%{transform:scale(.8) rotate(-4deg);box-shadow:0 0 0 0 rgba(168,215,90,.9)}60%{transform:scale(1.05)}100%{transform:none;box-shadow:0 0 0 24px rgba(168,215,90,0)}}
+@keyframes shake{25%{transform:translateX(-7px) rotate(-1.5deg)}50%{transform:translateX(7px) rotate(1.5deg)}75%{transform:translateX(-4px)}}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);opacity:0;background:var(--ink);color:var(--bg2);padding:12px 20px;border-radius:99px;font-weight:600;font-size:15px;transition:.3s;pointer-events:none;max-width:90vw;text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media (max-width:560px){.q{flex-direction:column;padding:24px}main{padding:28px 16px 64px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="bd" viewBox="0 0 64 64"><path d="M10 36c8-14 22-20 40-20-6 4-9 9-10 14 6-1 11 1 14 5-8-1-14 2-18 8-3-5-9-8-26-7z" fill="currentColor"/><circle cx="46" cy="22" r="2" fill="#fff"/></symbol></svg>
+<main>
+<div class="head">
+<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3l1.9 5.1L17 10l-5.1 1.9L10 17l-1.9-5.1L3 10l5.1-1.9z"/><path d="M18 3v4M16 5h4"/><circle cx="18" cy="18" r="1.6"/></svg>
+<h1>Quêtes du moment</h1>
+</div>
+
+<div class="row">
+<article class="q"><div class="tile"><svg width="64" height="64" style="color:#6B7A8C"><use href="#bd"/></svg></div><div><h3>Le cri du papangue</h3><p>Demande à un gramoun ce qu’on racontait sur le papangue quand il était enfant.</p><span class="xp">+80 XP bonus</span></div></article>
+<article class="q"><div class="tile"><svg width="64" height="64" style="color:#5A6470"><use href="#bd"/></svg></div><div><h3>Nuits sans lumière</h3><p>Recueille l’histoire de quelqu’un qui a déjà sauvé un pétrel échoué.</p><span class="xp">+80 XP bonus</span></div></article>
+<article class="q"><div class="tile"><svg width="64" height="64" style="color:#7A6A55"><use href="#bd"/></svg></div><div><h3>Le chant du merle</h3><p>Trouve une personne qui se souvient du merle péi dans sa cour ou sa forêt.</p><span class="xp">+60 XP bonus</span></div></article>
+</div>
+
+<section class="sec" aria-labelledby="t2">
+<div class="sec-top">
+<div>
+<h2 id="t2">Les cases mystères</h2>
+<p class="sub">Une nouvelle case s’ouvre le 1<sup>er</sup> de chaque mois. À toi de découvrir quelle quête s’y cache.</p>
+</div>
+<div class="prog">
+<b id="count"></b>
+<div class="bar"><i id="fill"></i></div>
+<button class="demo" id="demo" type="button">Démo : ouvrir le mois suivant</button>
+</div>
+</div>
+<div class="grid" id="grid"></div>
+</section>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+var M=[
+{m:"Novembre 2026",d:"2026-11-01",t:"Les 3 quêtes du moment",p:"Ouvertes en haut de la page. Fais-les avant la fin du mois.",x:200,c:"#6B7A8C"},
+{m:"Décembre 2026",d:"2026-12-01",h:"Elle plane au-dessus de l’océan.",t:"Le paille-en-queue d’avant",p:"Demande à un gramoun où il en voyait quand il était jeune.",x:70,c:"#5E7A8C"},
+{m:"Janvier 2027",d:"2027-01-01",h:"Un nom que plus personne n’utilise.",t:"Le nom oublié",p:"Retrouve un nom créole d’oiseau que les jeunes ne connaissent plus.",x:60,c:"#8A6E4F"},
+{m:"Février 2027",d:"2027-02-01",h:"Après la pluie et le vent.",t:"Après le cyclone",p:"Recueille le souvenir d’un oiseau vu ou entendu après un cyclone.",x:90,c:"#5A6470"},
+{m:"Mars 2027",d:"2027-03-01",h:"Dans la cour de mamie.",t:"La cour d’enfance",p:"Quel oiseau chantait chez ta grand-mère ? Note son nom et son cri.",x:60,c:"#7A6A55"},
+{m:"Avril 2027",d:"2027-04-01",h:"Un cri au fond de la forêt.",t:"Le cri à imiter",p:"Demande à un gramoun d’imiter un chant d’oiseau, puis enregistre-le.",x:80,c:"#40702F"},
+{m:"Mai 2027",d:"2027-05-01",h:"Une histoire qui revient souvent.",t:"L’oiseau de la famille",p:"Fais raconter l’oiseau qui revient dans les histoires de ta famille.",x:70,c:"#8A6E4F"},
+{m:"Juin 2027",d:"2027-06-01",h:"Il a disparu de ton quartier.",t:"Le grand absent",p:"Interroge quelqu’un sur un oiseau qu’il ne voit plus aujourd’hui.",x:80,c:"#5A6470"},
+{m:"Juillet 2027",d:"2027-07-01",h:"Ferme les yeux, il fait nuit.",t:"Les voix de la nuit",p:"Quels bruits d’oiseaux entend-on le soir ? Demande à un aîné.",x:70,c:"#3A4A6A"},
+{m:"Août 2027",d:"2027-08-01",h:"Un endroit que seuls les anciens connaissent.",t:"Le coin secret",p:"Où allait-on voir les oiseaux autrefois ? Fais dessiner le lieu.",x:90,c:"#40702F"},
+{m:"Septembre 2027",d:"2027-09-01",h:"Un conseil précieux.",t:"Le conseil du gramoun",p:"Recueille un conseil pour observer les oiseaux sans les déranger.",x:60,c:"#7A6A55"},
+{m:"Octobre 2027",d:"2027-10-01",h:"La plus belle de toutes.",t:"Le grand récit",p:"Réunis trois souvenirs et raconte-les en une seule histoire.",x:150,c:"#B9500F"}
+];
+var demo=0,seen=-1,g=document.getElementById("grid"),toast=document.getElementById("toast"),tt;
+function real(){var n=Date.now(),k=0;M.forEach(function(e,i){if(new Date(e.d+"T00:00:00").getTime()<=n)k=i+1});return k}
+function say(s){toast.textContent=s;toast.classList.add("on");clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove("on")},2600)}
+function fr(d){return new Date(d+"T00:00:00").toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"}).replace(/^1 /,"1er ")}
+function days(d){var n=Math.ceil((new Date(d+"T00:00:00").getTime()-Date.now())/864e5);return n<=0?"bientôt":"dans "+n+" jour"+(n>1?"s":"")}
+function render(){
+var u=Math.max(real(),demo,1),h="";
+M.forEach(function(e,i){
+if(i<u){
+h+='<div class="box open'+(i===u-1&&i>0&&i===seen?" pop":"")+'" tabindex="0">'+(i===u-1&&i>0?'<span class="new">NOUVEAU</span>':"")+'<span class="mo">'+e.m+'</span><svg width="52" height="52" style="color:'+e.c+';margin-top:12px"><use href="#bd"/></svg><h3>'+e.t+'</h3><p>'+e.p+'</p><span class="xp">+'+e.x+' XP bonus</span></div>';
+}else{
+h+='<button class="box locked" type="button" data-i="'+i+'" aria-label="Case mystère de '+e.m+', verrouillée"><span class="mo">'+e.m+'</span><span class="mark">?</span><span class="hint">Indice : '+e.h+'</span><span class="when">'+fr(e.d)+' · '+days(e.d)+'</span></button>';
+}});
+g.innerHTML=h;
+document.getElementById("count").textContent=u+" / "+M.length+" cases ouvertes";
+document.getElementById("fill").style.width=(u/M.length*100)+"%";
+document.getElementById("demo").hidden=u>=M.length;
+}
+g.addEventListener("click",function(ev){
+var b=ev.target.closest(".locked");if(!b)return;
+b.classList.remove("shake");void b.offsetWidth;b.classList.add("shake");
+say("Patience ! Cette case s’ouvre le "+fr(M[b.dataset.i].d)+".");
+});
+document.getElementById("demo").addEventListener("click",function(){
+demo=Math.max(real(),demo,1)+1;seen=demo-1;render();
+var n=g.querySelector(".pop");if(n)n.scrollIntoView({block:"center",behavior:"smooth"});
+say("Nouvelle case ouverte : "+M[demo-1].m);
+});
+render();
+</script>
+</body>
+</html>
